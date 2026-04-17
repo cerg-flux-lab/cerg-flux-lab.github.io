@@ -60,6 +60,11 @@
   .nav-logo {
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700; font-size: 1rem; letter-spacing: 0.12em;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .nav-logo img {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid rgba(74, 109, 181, 0.25);
   }
   .nav-logo .cerg { color: var(--up-blue-light); font-weight: 400; }
   .nav-logo .sep { color: var(--text-muted); font-weight: 300; }
@@ -412,7 +417,7 @@
 <body>
 
 <nav>
-  <div class="nav-logo"><span class="cerg">CERG</span><span class="sep">–</span><span class="flux">FLUX</span></div>
+  <div class="nav-logo"><img src="assets/cerg-flux-icon-dark.png" alt=""><span class="cerg">CERG</span><span class="sep">–</span><span class="flux">FLUX</span></div>
   <div class="nav-links">
     <a href="#research">Research</a>
     <a href="#vision">Vision</a>
@@ -652,26 +657,14 @@
 
 <section id="publications">
   <p class="section-label">04 — Publications</p>
-  <h2 class="section-title">Selected publications</h2>
+  <h2 class="section-title">Recent publications</h2>
   <p class="section-desc">
-    A selection of recent and representative outputs from the group. For a full list, see the <a href="#" style="color: var(--up-blue-light); text-decoration: none; border-bottom: 1px solid var(--up-blue-light);">PI's Google Scholar</a>.
+    Dynamically loaded from <a href="https://www.semanticscholar.org/author/100933186" style="color: var(--up-blue-light); text-decoration: none; border-bottom: 1px solid var(--up-blue-light);" target="_blank" rel="noopener">Semantic Scholar</a>. For a full list, see the <a href="https://scholar.google.com/citations?user=jlO-JkoAAAAJ&hl=en" style="color: var(--up-blue-light); text-decoration: none; border-bottom: 1px solid var(--up-blue-light);" target="_blank" rel="noopener">PI's Google Scholar</a>.
   </p>
 
-  <ul class="pub-list">
-    <li class="pub-item">
-      <div class="pub-title"><a href="#">Placeholder — publication title to be added</a></div>
-      <div class="pub-authors">Authors TBC</div>
-      <div class="pub-venue">Journal · Year</div>
-    </li>
-    <li class="pub-item">
-      <div class="pub-title"><a href="#">Placeholder — publication title to be added</a></div>
-      <div class="pub-authors">Authors TBC</div>
-      <div class="pub-venue">Journal · Year</div>
-    </li>
-    <li class="pub-item">
-      <div class="pub-title"><a href="#">Placeholder — publication title to be added</a></div>
-      <div class="pub-authors">Authors TBC</div>
-      <div class="pub-venue">Journal · Year</div>
+  <ul class="pub-list" id="pub-list">
+    <li class="pub-item" id="pub-loading">
+      <div class="pub-venue" style="opacity: 0.5;">Loading publications from Semantic Scholar...</div>
     </li>
   </ul>
 </section>
@@ -749,6 +742,73 @@
     &copy; 2026 CERG-FLUX Lab
   </div>
 </footer>
+
+<script>
+(async function loadPublications() {
+  const AUTHOR_ID = '100933186';
+  const API_URL = `https://api.semanticscholar.org/graph/v1/author/${AUTHOR_ID}/papers?fields=title,authors,year,venue,externalIds,url,publicationDate&limit=50&offset=0`;
+  const pubList = document.getElementById('pub-list');
+  const loading = document.getElementById('pub-loading');
+
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('API request failed');
+    const data = await res.json();
+
+    // Filter to 2025+ papers, sort by date descending
+    const papers = (data.data || [])
+      .filter(p => p.year && p.year >= 2025)
+      .sort((a, b) => {
+        const da = a.publicationDate || `${a.year}-01-01`;
+        const db = b.publicationDate || `${b.year}-01-01`;
+        return db.localeCompare(da);
+      });
+
+    if (papers.length === 0) {
+      loading.innerHTML = '<div class="pub-venue" style="opacity: 0.5;">No recent publications found.</div>';
+      return;
+    }
+
+    // Remove loading indicator
+    loading.remove();
+
+    papers.forEach(paper => {
+      // Format authors: show first 5, then "et al."
+      const authors = (paper.authors || [])
+        .slice(0, 5)
+        .map(a => a.name)
+        .join(', ') + (paper.authors && paper.authors.length > 5 ? ', et al.' : '');
+
+      // Build Semantic Scholar or DOI link
+      const doi = paper.externalIds && paper.externalIds.DOI;
+      const link = doi
+        ? `https://doi.org/${doi}`
+        : paper.url || '#';
+
+      const venue = paper.venue || '';
+      const venueText = venue ? `${venue} · ${paper.year}` : `${paper.year}`;
+
+      const li = document.createElement('li');
+      li.className = 'pub-item';
+      li.innerHTML = `
+        <div class="pub-title"><a href="${link}" target="_blank" rel="noopener">${paper.title}</a></div>
+        <div class="pub-authors">${authors}</div>
+        <div class="pub-venue">${venueText}</div>
+      `;
+      pubList.appendChild(li);
+    });
+
+  } catch (err) {
+    // Fallback: show a message with link to Scholar
+    loading.innerHTML = `
+      <div class="pub-venue" style="opacity: 0.7;">
+        Could not load publications automatically. 
+        View on <a href="https://scholar.google.com/citations?user=jlO-JkoAAAAJ&hl=en" 
+        style="color: var(--up-blue-light);" target="_blank" rel="noopener">Google Scholar</a>.
+      </div>`;
+  }
+})();
+</script>
 
 </body>
 </html>
