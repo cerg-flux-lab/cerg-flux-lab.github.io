@@ -1,0 +1,28 @@
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+ 
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+ 
+# Node (if tooling is added later)
+node_modules/
+package-lock.json
+ 
+# Python (if build scripts are added later)
+__pycache__/
+*.pyc
+.env
+ 
+# Build artifacts
+dist/
+.cache/
+ 
+# Logs
+*.log
+ 

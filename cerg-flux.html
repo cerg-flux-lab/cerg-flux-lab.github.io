@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CERG-FLUX Lab — Fluids, Learning, and Uncertainty in compleX systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #080b14;
+    --bg-secondary: #0d1220;
+    --bg-card: #111828;
+    --text-primary: #e4eaf4;
+    --text-secondary: #a3b5d6;
+    --text-muted: #5a7099;
+    --up-blue: #2050b0;
+    --up-blue-light: #5a8ae0;
+    --up-red: #86002D;
+    --up-red-light: #d9005c;
+    --accent-gold: #e8c44a;
+    --accent-violet: #8a6bbf;
+    --border: #1a2040;
+    --glow: rgba(32, 80, 176, 0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Noise overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.25rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8, 11, 20, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.12em;
+  }
+  .nav-logo .cerg { color: var(--up-blue-light); font-weight: 400; }
+  .nav-logo .sep { color: var(--text-muted); font-weight: 300; }
+  .nav-logo .flux { color: var(--text-primary); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    color: var(--text-secondary); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--up-blue-light); }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding: 8rem 2.5rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74, 109, 181, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74, 109, 181, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 100%);
+  }
+  .hero-glow {
+    position: absolute; width: 600px; height: 600px;
+    border-radius: 50%; filter: blur(180px); pointer-events: none;
+  }
+  .hero-glow-1 { top: -10%; right: 10%; background: var(--up-blue); opacity: 0.12; }
+  .hero-glow-2 { bottom: 0; left: -5%; background: var(--up-red); opacity: 0.06; }
+
+  .hero-content { max-width: 900px; position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 1rem; border: 1px solid var(--border);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--text-secondary);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 2rem; animation: fadeInUp 0.8s ease both;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px; background: var(--up-blue-light);
+    border-radius: 50%; animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif; font-weight: 400;
+    font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 0.5rem;
+    animation: fadeInUp 0.8s ease 0.1s both;
+  }
+  .hero h1 .cerg { color: var(--up-blue-light); font-size: 0.55em; font-style: normal; letter-spacing: 0.05em; }
+  .hero h1 .sep { color: var(--text-muted); font-weight: 300; font-size: 0.55em; }
+  .hero h1 .flux { color: var(--text-primary); font-style: italic; }
+
+  .hero-acronym {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; color: var(--text-secondary);
+    letter-spacing: 0.05em; margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+  .hero-acronym strong { color: var(--up-blue-light); font-weight: 500; }
+
+  .hero-desc {
+    font-size: 1.15rem; color: var(--text-secondary);
+    max-width: 620px; line-height: 1.75; margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease 0.3s both;
+  }
+
+  .hero-meta {
+    display: flex; gap: 2.5rem; flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+  .hero-meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .hero-meta-value { font-size: 0.95rem; color: var(--text-secondary); font-weight: 500; }
+  .hero-meta-value a {
+    color: var(--up-blue-light); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .hero-meta-value a:hover { border-color: var(--up-blue-light); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Sections ── */
+  section { padding: 6rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 400;
+    line-height: 1.15; margin-bottom: 1.5rem;
+  }
+  .section-desc {
+    font-size: 1.05rem; color: var(--text-secondary);
+    max-width: 600px; line-height: 1.75; margin-bottom: 3.5rem;
+  }
+
+  .divider { max-width: 1100px; margin: 0 auto; padding: 0 2.5rem; }
+  .divider hr { border: none; border-top: 1px solid var(--border); }
+
+  /* ── Research Pillars ── */
+  .pillars-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px; background: var(--border); border: 1px solid var(--border);
+  }
+  .pillar {
+    background: var(--bg-primary); padding: 2.5rem;
+    position: relative; transition: background 0.4s;
+  }
+  .pillar:hover { background: var(--bg-card); }
+  .pillar-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 1.5rem;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700;
+  }
+  .pillar-icon.cfd { background: rgba(90, 138, 224, 0.1); color: var(--up-blue-light); }
+  .pillar-icon.sciml { background: rgba(232, 196, 74, 0.1); color: var(--accent-gold); }
+  .pillar-icon.hep { background: rgba(217, 0, 92, 0.1); color: var(--up-red-light); }
+  .pillar-icon.qt { background: rgba(138, 107, 191, 0.1); color: var(--accent-violet); }
+  .pillar h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .pillar p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+  .pillar-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem; }
+  .pillar-tags span {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--text-muted); padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border); border-radius: 3px;
+  }
+
+  /* ── Vision ── */
+  .vision-block {
+    border-left: 2px solid var(--up-blue);
+    padding: 2rem 2.5rem;
+    background: linear-gradient(90deg, var(--glow), transparent 60%);
+    margin-bottom: 2rem;
+  }
+  .vision-block p {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem; font-style: italic; line-height: 1.6;
+  }
+  .vision-body {
+    font-size: 1.05rem; color: var(--text-secondary);
+    line-height: 1.75; max-width: 700px;
+  }
+  .vision-body + .vision-body { margin-top: 1.25rem; }
+
+  /* ── People ── */
+  .people-lead { display: flex; gap: 2.5rem; align-items: flex-start; flex-wrap: wrap; }
+  .people-avatar {
+    width: 120px; height: 120px; border-radius: 12px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Instrument Serif', serif; font-size: 2.5rem;
+    color: var(--up-blue-light); flex-shrink: 0;
+  }
+  .people-info { flex: 1; min-width: 280px; }
+  .people-info h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .people-info .role {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: var(--up-blue-light); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 1rem;
+  }
+  .people-info p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; }
+  .people-links { display: flex; gap: 1rem; margin-top: 1.25rem; }
+  .people-links a {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--text-muted); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.4rem 0.8rem; border: 1px solid var(--border);
+    border-radius: 4px; transition: all 0.3s;
+  }
+  .people-links a:hover { color: var(--up-blue-light); border-color: var(--up-blue-light); }
+
+  .people-callout {
+    margin-top: 3rem; padding: 2rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .people-callout h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent-gold); margin-bottom: 0.75rem;
+  }
+  .people-callout p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; }
+
+  /* ── Infrastructure ── */
+  .infra-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;
+  }
+  .infra-card {
+    padding: 1.75rem; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--bg-secondary);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .infra-card:hover { border-color: var(--up-blue-light); background: var(--bg-card); }
+  .infra-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; color: var(--text-primary); margin-bottom: 0.5rem;
+  }
+  .infra-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+  .infra-card a {
+    color: var(--up-blue-light); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .infra-card a:hover { border-color: var(--up-blue-light); }
+
+  /* ── Member grid ── */
+  .members-section { margin-top: 3rem; }
+  .members-section h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin-bottom: 1.25rem;
+  }
+  .members-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+  }
+  .member-card {
+    padding: 1.25rem; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--bg-secondary);
+  }
+  .member-card .name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.15rem; }
+  .member-card .degree {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--up-blue-light); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.4rem;
+  }
+  .member-card .topic { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+  .member-placeholder {
+    padding: 1.25rem; border: 1px dashed var(--border);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; min-height: 100px;
+  }
+  .member-placeholder span {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: var(--text-muted); opacity: 0.5;
+  }
+
+  /* ── Hero logo ── */
+  .hero-logo {
+    width: 80px; height: 80px; margin-bottom: 1.5rem;
+    border-radius: 50%; border: 1px solid rgba(74, 109, 181, 0.3);
+    overflow: hidden; animation: fadeInUp 0.8s ease both;
+    background: var(--bg-secondary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-logo svg { width: 100%; height: 100%; }
+
+  /* ── Lab links bar ── */
+  .lab-links {
+    display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.5s both;
+  }
+  .lab-links a {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--text-muted); text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.5rem 1rem; border: 1px solid var(--border);
+    border-radius: 4px; transition: all 0.3s;
+  }
+  .lab-links a:hover { color: var(--up-blue-light); border-color: var(--up-blue-light); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 4rem 2.5rem; border-top: 1px solid var(--border);
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between;
+    align-items: flex-end; flex-wrap: wrap; gap: 2rem;
+  }
+  .footer-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 1rem; letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+  }
+  .footer-brand .cerg { color: var(--up-blue-light); font-weight: 400; }
+  .footer-brand .flux { color: var(--text-primary); }
+  .footer-affiliation { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+  .footer-affiliation .up { color: var(--up-blue); font-weight: 600; }
+  .footer-right {
+    text-align: right; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.05em;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .people-lead { flex-direction: column; }
+    footer { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span class="cerg">CERG</span><span class="sep">–</span><span class="flux">FLUX</span></div>
+  <div class="nav-links">
+    <a href="#research">Research</a>
+    <a href="#vision">Vision</a>
+    <a href="#people">People</a>
+    <a href="#infra">Infrastructure</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-content">
+    <!-- Inline flow-field logo -->
+    <div class="hero-logo">
+      <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hMesh" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#4a6db5" stroke-width="0.3" opacity="0.15"/>
+          </pattern>
+          <radialGradient id="hVG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#c4004a" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#86002D" stop-opacity="0"/>
+          </radialGradient>
+          <clipPath id="hC"><circle cx="180" cy="180" r="155"/></clipPath>
+        </defs>
+        <circle cx="180" cy="180" r="158" fill="none" stroke="#4a6db5" stroke-width="1" opacity="0.3"/>
+        <circle cx="180" cy="180" r="155" fill="#0d1220"/>
+        <circle cx="180" cy="180" r="155" fill="url(#hMesh)" clip-path="url(#hC)"/>
+        <g clip-path="url(#hC)">
+          <path d="M 25 100 Q 75 95, 115 103 Q 145 113, 165 135 Q 180 153, 205 150 Q 245 143, 285 155 Q 315 165, 335 160" fill="none" stroke="#4a6db5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          <path d="M 25 75 Q 85 70, 125 80 Q 160 95, 175 115 Q 190 135, 215 130 Q 255 120, 295 133 Q 325 143, 340 133" fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+          <path d="M 25 125 Q 65 125, 95 135 Q 115 143, 123 155" fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+          <path d="M 25 150 Q 60 150, 90 155 Q 110 160, 120 170" fill="none" stroke="#4a6db5" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+          <path d="M 25 255 Q 75 260, 115 253 Q 145 243, 163 225 Q 177 210, 200 213 Q 240 219, 280 207 Q 313 197, 335 205" fill="none" stroke="#4a6db5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          <path d="M 25 285 Q 85 290, 125 280 Q 160 267, 175 247 Q 188 230, 210 233 Q 250 241, 290 230 Q 323 220, 340 230" fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="155" cy="195" r="18" fill="none" stroke="#4a6db5" stroke-width="1.5" opacity="0.2" stroke-dasharray="3 3"/>
+          <circle cx="223" cy="180" r="28" fill="url(#hVG)"/>
+          <path d="M 205 180 Q 210 163, 223 160 Q 237 158, 242 173 Q 245 187, 233 195 Q 221 200, 213 190 Q 207 183, 213 176" fill="none" stroke="#c4004a" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
+          <circle cx="223" cy="180" r="3.5" fill="#e0005a" opacity="0.9"/>
+          <circle cx="265" cy="225" r="20" fill="url(#hVG)" opacity="0.5"/>
+          <path d="M 277 225 Q 273 213, 263 211 Q 253 210, 250 220 Q 248 230, 257 235 Q 265 239, 272 233 Q 277 228, 273 223" fill="none" stroke="#c4004a" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="263" cy="223" r="2.5" fill="#e0005a" opacity="0.7"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-badge">
+      <span class="dot"></span>
+      University of Pretoria · Clean Energy Research Group
+    </div>
+    <h1><span class="cerg">CERG</span><span class="sep"> – </span><span class="flux">FLUX</span></h1>
+    <p class="hero-acronym">
+      <strong>F</strong>luids, <strong>L</strong>earning, and <strong>U</strong>ncertainty in comple<strong>X</strong> systems
+    </p>
+    <p class="hero-desc">
+      A research subgroup within CERG developing physics-informed computational methods to understand transport phenomena — from turbulent multiphase flows and lattice Boltzmann dynamics to scientific machine learning, high-energy particle physics at CERN, and quantum technologies.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Principal Investigator</span>
+        <span class="hero-meta-value">Assoc. Prof. Muaaz Bhamjee</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Parent Group</span>
+        <span class="hero-meta-value">CERG · EBIT</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Collaborations</span>
+        <span class="hero-meta-value">ATLAS · SA QuTI · SAAM</span>
+      </div>
+    </div>
+    <div class="lab-links">
+      <a href="https://muaazbhamjee.github.io">PI Website</a>
+      <a href="https://github.com/cerg-flux">Lab GitHub Org</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<section id="research">
+  <p class="section-label">01 — Research Pillars</p>
+  <h2 class="section-title">Transport phenomena across scales</h2>
+  <p class="section-desc">
+    Our work spans five interconnected pillars, unified by a common thread: physics-informed computational simulation of transport phenomena.
+  </p>
+  <div class="pillars-grid">
+    <div class="pillar">
+      <div class="pillar-icon cfd">∇</div>
+      <h3>Computational Fluid Dynamics &amp; Multiphase Flow</h3>
+      <p>Modelling complex transport in industrial and environmental systems — from air-core vortex formation in hydrocyclones to turbulent multiphase separation.</p>
+      <div class="pillar-tags">
+        <span>VOF</span><span>Eulerian</span><span>ASM</span><span>ANSYS Fluent</span><span>OpenFOAM</span>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon cfd">λ</div>
+      <h3>Lattice Boltzmann Methods</h3>
+      <p>Mesoscale simulation of fluid dynamics through kinetic theory — coupling LBM with VOF and DEM for particle-laden and free-surface flows.</p>
+      <div class="pillar-tags">
+        <span>Palabos</span><span>LBM-VOF</span><span>LBM-DEM</span><span>Kinetic Theory</span>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon sciml">∂</div>
+      <h3>Scientific Machine Learning</h3>
+      <p>Physics-informed neural networks, neural operators, and hybrid architectures that embed governing equations as inductive bias for forward and inverse problems.</p>
+      <div class="pillar-tags">
+        <span>PINNs</span><span>PyTorch</span><span>Neural Operators</span><span>Navier-Stokes</span>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon hep">⊕</div>
+      <h3>High-Energy Particle Physics</h3>
+      <p>Contributing to the ATLAS experiment at CERN's Large Hadron Collider — South Africa's institutional representative advancing detector physics and data analysis.</p>
+      <div class="pillar-tags">
+        <span>ATLAS</span><span>CERN LHC</span><span>SA-ATLAS</span><span>Detector Physics</span>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon qt">ψ</div>
+      <h3>Quantum Technologies</h3>
+      <p>Exploring quantum sensing and quantum computing applications through the South African Quantum Technology Initiative and UPQust.</p>
+      <div class="pillar-tags">
+        <span>SA QuTI</span><span>UPQust</span><span>Quantum Sensing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<section id="vision">
+  <p class="section-label">02 — Vision</p>
+  <h2 class="section-title">Why FLUX?</h2>
+  <div class="vision-block">
+    <p>Physics doesn't respect disciplinary boundaries. Neither should the methods we use to understand it.</p>
+  </div>
+  <p class="vision-body">
+    CERG-FLUX exists at the intersection of fundamental physics, computational mathematics, and modern machine learning. We believe the most impactful advances in simulation science emerge when classical methods — rooted in conservation laws and kinetic theory — are augmented by data-driven approaches that respect the physics they serve.
+  </p>
+  <p class="vision-body">
+    As a subgroup within the Clean Energy Research Group, CERG-FLUX brings a focused computational identity to CERG's broader mission. Our research programme draws on industrial CFD, mesoscale LBM, deep learning, particle physics, and quantum information — not as parallel silos, but as a coherent portfolio connected by the computational simulation of transport phenomena.
+  </p>
+  <p class="vision-body">
+    We value depth over breadth, rigour over hype, and building over buying.
+  </p>
+</section>
+
+<div class="divider"><hr></div>
+
+<section id="people">
+  <p class="section-label">03 — People</p>
+  <h2 class="section-title">The team</h2>
+  <p class="section-desc">
+    CERG-FLUX is a research subgroup within the Clean Energy Research Group at the University of Pretoria.
+  </p>
+  <div class="people-lead">
+    <div class="people-avatar">MB</div>
+    <div class="people-info">
+      <h3>Muaaz Bhamjee</h3>
+      <p class="role">Principal Investigator · Associate Professor</p>
+      <p>
+        Muaaz's career spans industrial CFD at Hatch Africa, geospatial data science and climate foundation models at IBM Research, and academic appointments at UJ and UP. His PhD work on hydrocyclone CFD modelling benchmarked VOF, ASM, Eulerian, and LBM-VOF approaches. He serves as UP's ATLAS Collaboration representative and SA-ATLAS Team Leader, Vice President of SAAM, and member of the SA National IUTAM Committee.
+      </p>
+      <div class="people-links">
+        <a href="https://muaazbhamjee.github.io">Website</a>
+        <a href="#">Scholar</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">Substack</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Postdoctoral Research Fellows -->
+  <div class="members-section">
+    <h4>Postdoctoral Research Fellows</h4>
+    <div class="members-grid">
+      <div class="member-placeholder"><span>Positions in pipeline</span></div>
+    </div>
+  </div>
+
+  <!-- PhD Students -->
+  <div class="members-section">
+    <h4>PhD Students</h4>
+    <div class="members-grid">
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">PhD · UP</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">PhD · UP</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">PhD · UP</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">PhD · UP</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">PhD · UJ</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">PhD · UJ</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-placeholder"><span>1–3 registrations pending</span></div>
+    </div>
+  </div>
+
+  <!-- MEng Students -->
+  <div class="members-section">
+    <h4>MEng Students</h4>
+    <div class="members-grid">
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">MEng · UP</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">MEng · UP</div>
+        <div class="topic">—</div>
+      </div>
+      <div class="member-card">
+        <div class="name">TBC</div>
+        <div class="degree">MEng · UP</div>
+        <div class="topic">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collaborators -->
+  <div class="members-section">
+    <h4>Collaborators</h4>
+    <div class="members-grid">
+      <div class="member-placeholder"><span>Coming soon</span></div>
+    </div>
+  </div>
+
+  <div class="people-callout">
+    <h4>Join Us</h4>
+    <p>
+      We are actively seeking motivated postgraduate students (MEng &amp; PhD) and postdoctoral researchers with interests in CFD, LBM, scientific machine learning, high-energy physics, or quantum technologies. Funded positions are available through NRF, SA QuTI, and the ATLAS Collaboration. Get in touch.
+    </p>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<section id="infra">
+  <p class="section-label">04 — Infrastructure</p>
+  <h2 class="section-title">How we compute</h2>
+  <p class="section-desc">
+    We build and operate local HPC infrastructure and leverage national supercomputing facilities — automation-first, purpose-built for research workloads.
+  </p>
+  <div class="infra-grid">
+    <div class="infra-card">
+      <h4>CHPC Lengau</h4>
+      <p>South Africa's national supercomputing facility — petascale CPU and GPU clusters for large-scale simulation and ML workloads. <a href="https://www.chpc.ac.za/" target="_blank" rel="noopener">chpc.ac.za</a></p>
+    </div>
+    <div class="infra-card">
+      <h4>Homelab HPC Cluster</h4>
+      <p>Multi-node cluster (mjolnir, legion) with full monitoring stack, SSH tunnels, systemd services, and a FastAPI dashboard.</p>
+    </div>
+    <div class="infra-card">
+      <h4>ANSYS RSM</h4>
+      <p>Remote solve management for Fluent and CFX workloads across networked nodes with NFS-backed job submission.</p>
+    </div>
+    <div class="infra-card">
+      <h4>PyTorch + SciML</h4>
+      <p>Custom PINN training pipelines with physics-constrained loss functions, chain-rule normalisation, and PDE loss scheduling.</p>
+    </div>
+    <div class="infra-card">
+      <h4>Palabos LBM</h4>
+      <p>Lattice Boltzmann simulations with DEM coupling for particle-laden flows — unified runtime-flag-controlled source.</p>
+    </div>
+    <div class="infra-card">
+      <h4>Future Roadmap</h4>
+      <p>Tailscale mesh networking, Slurm job scheduling, dedicated head node, self-hosted RustDesk relay, Rocky Linux migration.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-brand"><span class="cerg">CERG</span>–<span class="flux">FLUX</span></div>
+    <div class="footer-affiliation">
+      Clean Energy Research Group<br>
+      Department of Mechanical &amp; Aeronautical Engineering · EBIT<br>
+      <span class="up">University of Pretoria</span> · South Africa
+    </div>
+  </div>
+  <div class="footer-right">
+    Fluids, Learning, and Uncertainty<br>
+    in compleX systems<br><br>
+    &copy; 2026 CERG-FLUX
+  </div>
+</footer>
+
+</body>
+</html>

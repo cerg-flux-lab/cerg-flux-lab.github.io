@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <pattern id="meshGrid3" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#4a6db5" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+    <radialGradient id="vGlow3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c4004a" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#86002D" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="fClip3">
+      <circle cx="175" cy="195" r="155"/>
+    </clipPath>
+  </defs>
+
+  <!-- Dark background -->
+  <rect x="0" y="0" width="900" height="500" fill="#080b14"/>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- FLOW FIELD ICON                             -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <circle cx="175" cy="195" r="158" fill="none" stroke="#4a6db5" stroke-width="1" opacity="0.3"/>
+  <circle cx="175" cy="195" r="155" fill="#0d1220"/>
+  <circle cx="175" cy="195" r="155" fill="url(#meshGrid3)" clip-path="url(#fClip3)"/>
+
+  <g clip-path="url(#fClip3)">
+    <!-- Upper streamlines -->
+    <path d="M 20 90 Q 70 85, 110 93 Q 140 103, 160 125 Q 175 143, 200 140 Q 240 133, 280 145 Q 310 155, 330 150" 
+          fill="none" stroke="#4a6db5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 20 65 Q 80 60, 120 70 Q 155 85, 170 105 Q 185 125, 210 120 Q 250 110, 290 123 Q 320 133, 340 125" 
+          fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 20 45 Q 90 40, 140 53 Q 175 65, 190 85 Q 205 105, 230 100 Q 270 90, 310 103 Q 335 113, 345 103" 
+          fill="none" stroke="#4a6db5" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+    
+    <!-- Approach -->
+    <path d="M 20 115 Q 60 115, 90 125 Q 110 133, 118 145" 
+          fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M 20 140 Q 55 140, 85 145 Q 105 150, 115 160" 
+          fill="none" stroke="#4a6db5" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+    <path d="M 20 165 Q 50 163, 80 167 Q 100 172, 110 183" 
+          fill="none" stroke="#4a6db5" stroke-width="1.4" stroke-linecap="round" opacity="0.35"/>
+
+    <!-- Lower -->
+    <path d="M 20 245 Q 70 250, 110 243 Q 140 233, 158 215 Q 172 200, 195 203 Q 235 209, 275 197 Q 308 187, 330 195" 
+          fill="none" stroke="#4a6db5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 20 275 Q 80 280, 120 270 Q 155 257, 170 237 Q 183 220, 205 223 Q 245 231, 285 220 Q 318 210, 340 220" 
+          fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 20 300 Q 90 307, 140 295 Q 175 283, 190 263 Q 203 245, 225 247 Q 265 255, 305 243 Q 330 233, 345 243" 
+          fill="none" stroke="#4a6db5" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+
+    <!-- Cylinder -->
+    <circle cx="150" cy="185" r="18" fill="none" stroke="#4a6db5" stroke-width="1.5" opacity="0.2" stroke-dasharray="3 3"/>
+    <circle cx="150" cy="185" r="2" fill="#4a6db5" opacity="0.15"/>
+
+    <!-- Primary vortex -->
+    <circle cx="218" cy="170" r="28" fill="url(#vGlow3)"/>
+    <path d="M 200 170 Q 205 153, 218 150 Q 232 148, 237 163 Q 240 177, 228 185 Q 216 190, 208 180 Q 202 173, 208 166" 
+          fill="none" stroke="#c4004a" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
+    <circle cx="218" cy="170" r="3.5" fill="#e0005a" opacity="0.9"/>
+
+    <!-- Secondary vortex -->
+    <circle cx="260" cy="215" r="20" fill="url(#vGlow3)" opacity="0.5"/>
+    <path d="M 272 215 Q 268 203, 258 201 Q 248 200, 245 210 Q 243 220, 252 225 Q 260 229, 267 223 Q 272 218, 268 213" 
+          fill="none" stroke="#c4004a" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="258" cy="213" r="2.5" fill="#e0005a" opacity="0.7"/>
+
+    <!-- Tertiary -->
+    <path d="M 298 177 Q 295 169, 289 168 Q 283 168, 282 174 Q 281 180, 287 183" 
+          fill="none" stroke="#c4004a" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+    <circle cx="290" cy="175" r="1.8" fill="#e0005a" opacity="0.5"/>
+
+    <!-- Tracers -->
+    <circle cx="45" cy="105" r="1.5" fill="#4a6db5" opacity="0.35"/>
+    <circle cx="62" cy="155" r="1.2" fill="#4a6db5" opacity="0.3"/>
+    <circle cx="38" cy="230" r="1.3" fill="#4a6db5" opacity="0.35"/>
+    <circle cx="75" cy="275" r="1.0" fill="#4a6db5" opacity="0.25"/>
+    <circle cx="52" cy="185" r="1.8" fill="#4a6db5" opacity="0.25"/>
+    <circle cx="145" cy="130" r="1.5" fill="#4a6db5" opacity="0.4"/>
+    <circle cx="155" cy="255" r="1.3" fill="#4a6db5" opacity="0.35"/>
+    <circle cx="300" cy="160" r="1.2" fill="#c4004a" opacity="0.4"/>
+    <circle cx="310" cy="230" r="1.0" fill="#c4004a" opacity="0.35"/>
+
+    <!-- Velocity arrows -->
+    <line x1="42" y1="127" x2="58" y2="125" stroke="#4a6db5" stroke-width="0.8" opacity="0.35"/>
+    <polygon points="58,122 63,125 58,128" fill="#4a6db5" opacity="0.35"/>
+    <line x1="42" y1="257" x2="58" y2="259" stroke="#4a6db5" stroke-width="0.8" opacity="0.35"/>
+    <polygon points="58,256 63,259 58,262" fill="#4a6db5" opacity="0.35"/>
+  </g>
+
+  <!-- Tick marks -->
+  <line x1="175" y1="37" x2="175" y2="43" stroke="#4a6db5" stroke-width="1" opacity="0.25"/>
+  <line x1="175" y1="347" x2="175" y2="353" stroke="#4a6db5" stroke-width="1" opacity="0.25"/>
+  <line x1="17" y1="195" x2="23" y2="195" stroke="#4a6db5" stroke-width="1" opacity="0.25"/>
+  <line x1="327" y1="195" x2="333" y2="195" stroke="#4a6db5" stroke-width="1" opacity="0.25"/>
+
+  <text x="160" y="371" 
+        font-family="'Courier New', 'Courier', monospace" 
+        font-size="8" fill="#7a9dd4" text-anchor="middle">Re ≈ 200</text>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- WORDMARK: CERG-FLUX                         -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <!-- "CERG" prefix — lighter weight, UP Blue tint -->
+  <text x="375" y="145" 
+        font-family="'Georgia', 'Times New Roman', serif" 
+        font-weight="400" font-size="38" letter-spacing="6"
+        fill="#5a8ae0">CERG</text>
+
+  <!-- Hyphen connector -->
+  <text x="530" y="145" 
+        font-family="'Georgia', 'Times New Roman', serif" 
+        font-weight="300" font-size="38"
+        fill="#5a8ae0" opacity="0.6">–</text>
+
+  <!-- "FLUX" — dominant, bold -->
+  <text x="375" y="240" 
+        font-family="'Georgia', 'Times New Roman', serif" 
+        font-weight="700" font-size="108" letter-spacing="4"
+        fill="#e4eaf4">FLUX</text>
+  
+  <!-- Underline -->
+  <path d="M 375 253 Q 480 257, 580 253 Q 640 250, 710 254" 
+        fill="none" stroke="#a3003e" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- "Lab" — italic, red accent -->
+  <text x="378" y="302" 
+        font-family="'Georgia', 'Times New Roman', serif" 
+        font-weight="400" font-style="italic" font-size="52" letter-spacing="6"
+        fill="#d9005c">Lab</text>
+  
+  <!-- Descriptor -->
+  <text x="378" y="342" 
+        font-family="'Courier New', 'Courier', monospace" 
+        font-weight="400" font-size="12.5" letter-spacing="1.5"
+        fill="#a3b5d6">Fluids, Learning &amp; Uncertainty in compleX systems</text>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- INSTITUTIONAL BAR                           -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <!-- Divider line -->
+  <line x1="30" y1="420" x2="870" y2="420" stroke="#1a2040" stroke-width="1"/>
+
+  <!-- UP Crest placeholder — replace with official asset -->
+  <rect x="30" y="438" width="40" height="40" rx="3" fill="none" 
+        stroke="#2050b0" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
+  <text x="50" y="463" 
+        font-family="'Courier New', 'Courier', monospace" 
+        font-size="7" fill="#2050b0" opacity="0.5" text-anchor="middle">CREST</text>
+
+  <!-- University name in UP Blue — brightened -->
+  <text x="85" y="455" 
+        font-family="'Georgia', 'Times New Roman', serif" 
+        font-weight="700" font-size="16" letter-spacing="1.5"
+        fill="#2050b0">UNIVERSITY OF PRETORIA</text>
+
+  <!-- Department — brightened -->
+  <text x="85" y="473" 
+        font-family="'Courier New', 'Courier', monospace" 
+        font-weight="400" font-size="10" letter-spacing="1"
+        fill="#a3b5d6">Department of Mechanical &amp; Aeronautical Engineering · EBIT</text>
+
+</svg>
