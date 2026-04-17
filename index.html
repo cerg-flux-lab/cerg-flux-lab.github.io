@@ -316,13 +316,11 @@
 
   /* ── Hero logo ── */
   .hero-logo {
-    width: 80px; height: 80px; margin-bottom: 1.5rem;
-    border-radius: 50%; border: 1px solid rgba(74, 109, 181, 0.3);
-    overflow: hidden; animation: fadeInUp 0.8s ease both;
-    background: var(--bg-secondary);
-    display: flex; align-items: center; justify-content: center;
+    max-width: 500px; margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease both;
+    opacity: 0.9;
   }
-  .hero-logo svg { width: 100%; height: 100%; }
+  .hero-logo img { width: 100%; height: auto; }
 
   /* ── Lab links bar ── */
   .lab-links {
@@ -337,6 +335,47 @@
     border-radius: 4px; transition: all 0.3s;
   }
   .lab-links a:hover { color: var(--up-blue-light); border-color: var(--up-blue-light); }
+
+  /* ── Publications ── */
+  .pub-list { list-style: none; }
+  .pub-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .pub-item:last-child { border-bottom: none; }
+  .pub-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem;
+    line-height: 1.5;
+  }
+  .pub-title a {
+    color: var(--text-primary); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .pub-title a:hover { color: var(--up-blue-light); }
+  .pub-authors { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+  .pub-venue {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--text-muted); letter-spacing: 0.03em;
+  }
+
+  /* ── News ── */
+  .news-list { list-style: none; }
+  .news-item {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 1.5rem; align-items: baseline;
+  }
+  .news-item:last-child { border-bottom: none; }
+  .news-date {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--text-muted); white-space: nowrap; min-width: 80px;
+  }
+  .news-text { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+  .news-text a {
+    color: var(--up-blue-light); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .news-text a:hover { border-color: var(--up-blue-light); }
 
   /* ── Footer ── */
   footer {
@@ -378,6 +417,8 @@
     <a href="#research">Research</a>
     <a href="#vision">Vision</a>
     <a href="#people">People</a>
+    <a href="#publications">Publications</a>
+    <a href="#news">News</a>
     <a href="#infra">Infrastructure</a>
   </div>
 </nav>
@@ -387,38 +428,9 @@
   <div class="hero-glow hero-glow-1"></div>
   <div class="hero-glow hero-glow-2"></div>
   <div class="hero-content">
-    <!-- Inline flow-field logo -->
+    <!-- Full wordmark logo -->
     <div class="hero-logo">
-      <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="hMesh" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#4a6db5" stroke-width="0.3" opacity="0.15"/>
-          </pattern>
-          <radialGradient id="hVG" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#c4004a" stop-opacity="0.5"/>
-            <stop offset="100%" stop-color="#86002D" stop-opacity="0"/>
-          </radialGradient>
-          <clipPath id="hC"><circle cx="180" cy="180" r="155"/></clipPath>
-        </defs>
-        <circle cx="180" cy="180" r="158" fill="none" stroke="#4a6db5" stroke-width="1" opacity="0.3"/>
-        <circle cx="180" cy="180" r="155" fill="#0d1220"/>
-        <circle cx="180" cy="180" r="155" fill="url(#hMesh)" clip-path="url(#hC)"/>
-        <g clip-path="url(#hC)">
-          <path d="M 25 100 Q 75 95, 115 103 Q 145 113, 165 135 Q 180 153, 205 150 Q 245 143, 285 155 Q 315 165, 335 160" fill="none" stroke="#4a6db5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-          <path d="M 25 75 Q 85 70, 125 80 Q 160 95, 175 115 Q 190 135, 215 130 Q 255 120, 295 133 Q 325 143, 340 133" fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
-          <path d="M 25 125 Q 65 125, 95 135 Q 115 143, 123 155" fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
-          <path d="M 25 150 Q 60 150, 90 155 Q 110 160, 120 170" fill="none" stroke="#4a6db5" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
-          <path d="M 25 255 Q 75 260, 115 253 Q 145 243, 163 225 Q 177 210, 200 213 Q 240 219, 280 207 Q 313 197, 335 205" fill="none" stroke="#4a6db5" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-          <path d="M 25 285 Q 85 290, 125 280 Q 160 267, 175 247 Q 188 230, 210 233 Q 250 241, 290 230 Q 323 220, 340 230" fill="none" stroke="#4a6db5" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
-          <circle cx="155" cy="195" r="18" fill="none" stroke="#4a6db5" stroke-width="1.5" opacity="0.2" stroke-dasharray="3 3"/>
-          <circle cx="223" cy="180" r="28" fill="url(#hVG)"/>
-          <path d="M 205 180 Q 210 163, 223 160 Q 237 158, 242 173 Q 245 187, 233 195 Q 221 200, 213 190 Q 207 183, 213 176" fill="none" stroke="#c4004a" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
-          <circle cx="223" cy="180" r="3.5" fill="#e0005a" opacity="0.9"/>
-          <circle cx="265" cy="225" r="20" fill="url(#hVG)" opacity="0.5"/>
-          <path d="M 277 225 Q 273 213, 263 211 Q 253 210, 250 220 Q 248 230, 257 235 Q 265 239, 272 233 Q 277 228, 273 223" fill="none" stroke="#c4004a" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
-          <circle cx="263" cy="223" r="2.5" fill="#e0005a" opacity="0.7"/>
-        </g>
-      </svg>
+      <img src="assets/cerg-flux-logo-dark.png" alt="CERG-FLUX Lab">
     </div>
     <div class="hero-badge">
       <span class="dot"></span>
@@ -442,12 +454,12 @@
       </div>
       <div class="hero-meta-item">
         <span class="hero-meta-label">Collaborations</span>
-        <span class="hero-meta-value">ATLAS · SA QuTI · SAAM</span>
+        <span class="hero-meta-value">ATLAS · UPQuST</span>
       </div>
     </div>
     <div class="lab-links">
       <a href="https://muaazbhamjee.github.io">PI Website</a>
-      <a href="https://github.com/cerg-flux">Lab GitHub Org</a>
+      <a href="https://github.com/cerg-flux-lab">Lab GitHub Org</a>
     </div>
   </div>
 </section>
@@ -496,9 +508,9 @@
     <div class="pillar">
       <div class="pillar-icon qt">ψ</div>
       <h3>Quantum Technologies</h3>
-      <p>Exploring quantum sensing and quantum computing applications through the South African Quantum Technology Initiative and UPQust.</p>
+      <p>Exploring quantum sensing and quantum computing applications through the University of Pretoria Quantum Science and Technology group (UPQuST).</p>
       <div class="pillar-tags">
-        <span>SA QuTI</span><span>UPQust</span><span>Quantum Sensing</span>
+        <span>UPQuST</span><span>Quantum Sensing</span><span>Quantum Computing</span>
       </div>
     </div>
   </div>
@@ -513,10 +525,10 @@
     <p>Physics doesn't respect disciplinary boundaries. Neither should the methods we use to understand it.</p>
   </div>
   <p class="vision-body">
-    CERG-FLUX exists at the intersection of fundamental physics, computational mathematics, and modern machine learning. We believe the most impactful advances in simulation science emerge when classical methods — rooted in conservation laws and kinetic theory — are augmented by data-driven approaches that respect the physics they serve.
+    CERG-FLUX Lab exists at the intersection of fundamental physics, computational mathematics, and modern machine learning. We believe the most impactful advances in simulation science emerge when classical methods — rooted in conservation laws and kinetic theory — are augmented by data-driven approaches that respect the physics they serve.
   </p>
   <p class="vision-body">
-    As a subgroup within the Clean Energy Research Group, CERG-FLUX brings a focused computational identity to CERG's broader mission. Our research programme draws on industrial CFD, mesoscale LBM, deep learning, particle physics, and quantum information — not as parallel silos, but as a coherent portfolio connected by the computational simulation of transport phenomena.
+    As a subgroup within the Clean Energy Research Group, CERG-FLUX Lab brings a focused computational identity to CERG's broader mission. Our research programme draws on industrial CFD, mesoscale LBM, deep learning, particle physics, and quantum information — not as parallel silos, but as a coherent portfolio connected by the computational simulation of transport phenomena.
   </p>
   <p class="vision-body">
     We value depth over breadth, rigour over hype, and building over buying.
@@ -529,7 +541,7 @@
   <p class="section-label">03 — People</p>
   <h2 class="section-title">The team</h2>
   <p class="section-desc">
-    CERG-FLUX is a research subgroup within the Clean Energy Research Group at the University of Pretoria.
+    CERG-FLUX Lab is a research subgroup within the Clean Energy Research Group at the University of Pretoria.
   </p>
   <div class="people-lead">
     <div class="people-avatar">MB</div>
@@ -537,7 +549,7 @@
       <h3>Muaaz Bhamjee</h3>
       <p class="role">Principal Investigator · Associate Professor</p>
       <p>
-        Muaaz's career spans industrial CFD at Hatch Africa, geospatial data science and climate foundation models at IBM Research, and academic appointments at UJ and UP. His PhD work on hydrocyclone CFD modelling benchmarked VOF, ASM, Eulerian, and LBM-VOF approaches. He serves as UP's ATLAS Collaboration representative and SA-ATLAS Team Leader, Vice President of SAAM, and member of the SA National IUTAM Committee.
+        Muaaz's career spans industrial CFD at Hatch Africa, geospatial data science and climate foundation models at IBM Research, and academic appointments at UJ and UP. His PhD work on hydrocyclone CFD modelling benchmarked VOF, ASM, Eulerian, and LBM-VOF approaches. He serves as UP's ATLAS Collaboration representative and SA-ATLAS Team Leader, and member of the SA National IUTAM Committee.
       </p>
       <div class="people-links">
         <a href="https://muaazbhamjee.github.io">Website</a>
@@ -628,15 +640,68 @@
   <div class="people-callout">
     <h4>Join Us</h4>
     <p>
-      We are actively seeking motivated postgraduate students (MEng &amp; PhD) and postdoctoral researchers with interests in CFD, LBM, scientific machine learning, high-energy physics, or quantum technologies. Funded positions are available through NRF, SA QuTI, and the ATLAS Collaboration. Get in touch.
+      We are actively seeking motivated postgraduate students (MEng &amp; PhD) and postdoctoral researchers with interests in CFD, LBM, scientific machine learning, high-energy physics, or quantum technologies. Funded positions are available through NRF, UPQuST, and the ATLAS Collaboration.
+    </p>
+    <p style="margin-top: 1rem;">
+      The ideal CERG-FLUX Lab member is someone who is curious about how things work at a fundamental level and wants to build the tools to find out. You don't need to arrive as an expert in all of our pillars — nobody is — but you should bring a strong foundation in engineering mathematics or physics, a willingness to write and debug code (Python, C++, or Fortran), and the patience to work through hard problems carefully rather than rushing to results. We value people who read papers critically, ask good questions, document their work, and take ownership of their projects. If you're the kind of person who would rather understand a method deeply than apply it blindly, you'll fit in here.
     </p>
   </div>
 </section>
 
 <div class="divider"><hr></div>
 
+<section id="publications">
+  <p class="section-label">04 — Publications</p>
+  <h2 class="section-title">Selected publications</h2>
+  <p class="section-desc">
+    A selection of recent and representative outputs from the group. For a full list, see the <a href="#" style="color: var(--up-blue-light); text-decoration: none; border-bottom: 1px solid var(--up-blue-light);">PI's Google Scholar</a>.
+  </p>
+
+  <ul class="pub-list">
+    <li class="pub-item">
+      <div class="pub-title"><a href="#">Placeholder — publication title to be added</a></div>
+      <div class="pub-authors">Authors TBC</div>
+      <div class="pub-venue">Journal · Year</div>
+    </li>
+    <li class="pub-item">
+      <div class="pub-title"><a href="#">Placeholder — publication title to be added</a></div>
+      <div class="pub-authors">Authors TBC</div>
+      <div class="pub-venue">Journal · Year</div>
+    </li>
+    <li class="pub-item">
+      <div class="pub-title"><a href="#">Placeholder — publication title to be added</a></div>
+      <div class="pub-authors">Authors TBC</div>
+      <div class="pub-venue">Journal · Year</div>
+    </li>
+  </ul>
+</section>
+
+<div class="divider"><hr></div>
+
+<section id="news">
+  <p class="section-label">05 — In the News</p>
+  <h2 class="section-title">Latest updates</h2>
+
+  <ul class="news-list">
+    <li class="news-item">
+      <span class="news-date">Apr 2026</span>
+      <span class="news-text">CERG-FLUX Lab formally established as a research subgroup within CERG at the University of Pretoria.</span>
+    </li>
+    <li class="news-item">
+      <span class="news-date">Apr 2026</span>
+      <span class="news-text">CHPC Student Cluster Competition 2026 — information session and applications open. <a href="#">Details</a></span>
+    </li>
+    <li class="news-item">
+      <span class="news-date">—</span>
+      <span class="news-text">More updates coming soon.</span>
+    </li>
+  </ul>
+</section>
+
+<div class="divider"><hr></div>
+
 <section id="infra">
-  <p class="section-label">04 — Infrastructure</p>
+  <p class="section-label">06 — Infrastructure</p>
   <h2 class="section-title">How we compute</h2>
   <p class="section-desc">
     We build and operate local HPC infrastructure and leverage national supercomputing facilities — automation-first, purpose-built for research workloads.
@@ -681,7 +746,7 @@
   <div class="footer-right">
     Fluids, Learning, and Uncertainty<br>
     in compleX systems<br><br>
-    &copy; 2026 CERG-FLUX
+    &copy; 2026 CERG-FLUX Lab
   </div>
 </footer>
 
