@@ -13,8 +13,8 @@ A research subgroup within the Clean Energy Research Group (CERG), Department of
 ```
 ├── index.html                        # Landing page
 ├── assets/
-│   ├── cerg-flux-logo-dark.svg       # Full logo (dark variant)
-│   └── cerg-flux-icon-dark.svg       # Icon-only mark
+│   ├── cerg-flux-logo-dark.png       # Full logo (dark variant)
+│   └── cerg-flux-icon-dark.png       # Icon-only mark
 ├── .gitignore
 └── README.md                         # This file
 ```
