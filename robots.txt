@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cerg-flux-lab.github.io/sitemap.xml
