@@ -451,12 +451,110 @@
     font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.05em;
   }
 
+  /* ── Join Us nav button ── */
+  .nav-join {
+    color: var(--accent-gold) !important;
+    border: 1px solid var(--accent-gold);
+    padding: 0.35rem 0.9rem;
+    border-radius: 4px;
+    transition: all 0.3s !important;
+  }
+  .nav-join:hover {
+    background: var(--accent-gold) !important;
+    color: var(--bg-primary) !important;
+  }
+
+  /* ── Join Us full-width section ── */
+  .join-section {
+    width: 100%;
+    padding: 6rem 2.5rem;
+    background: linear-gradient(
+      170deg,
+      rgba(32, 80, 176, 0.12) 0%,
+      rgba(134, 0, 45, 0.08) 40%,
+      rgba(138, 107, 191, 0.08) 70%,
+      var(--bg-primary) 100%
+    );
+    border-top: 1px solid rgba(90, 138, 224, 0.15);
+    border-bottom: 1px solid rgba(90, 138, 224, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .join-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74, 109, 181, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74, 109, 181, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .join-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .join-section .section-label { color: var(--accent-gold); }
+  .join-section .section-title { margin-bottom: 2rem; }
+
+  .join-body {
+    font-size: 1.05rem; color: var(--text-secondary);
+    line-height: 1.75; max-width: 780px; margin-bottom: 1.5rem;
+  }
+  .join-body a {
+    color: var(--accent-gold); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .join-body a:hover { border-color: var(--accent-gold); }
+
+  .join-highlights {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem; margin: 2.5rem 0;
+  }
+  .join-highlight-card {
+    padding: 1.5rem; border: 1px solid rgba(232, 196, 74, 0.15);
+    border-radius: 8px;
+    background: rgba(17, 24, 40, 0.6);
+    backdrop-filter: blur(4px);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .join-highlight-card:hover {
+    border-color: rgba(232, 196, 74, 0.35);
+    background: rgba(17, 24, 40, 0.85);
+  }
+  .join-highlight-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .join-highlight-card p {
+    font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
+  }
+  .join-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 1.5rem; padding: 0.65rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--bg-primary);
+    background: var(--accent-gold); border: none;
+    border-radius: 4px; text-decoration: none;
+    transition: all 0.3s; font-weight: 600;
+  }
+  .join-cta:hover {
+    background: #f0d060;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(232, 196, 74, 0.25);
+  }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     .hero { padding: 7rem 1.5rem 3rem; }
     section { padding: 4rem 1.5rem; }
+    .join-section { padding: 4rem 1.5rem; }
     .people-lead { flex-direction: column; }
     footer { padding: 3rem 1.5rem; }
   }
@@ -474,6 +572,7 @@
     <a href="#publications">Publications</a>
     <a href="#news">News</a>
     <a href="#infra">Infrastructure</a>
+    <a href="#join" class="nav-join">Join Us</a>
   </div>
 </nav>
 
@@ -705,24 +804,10 @@
         <p class="member-research">Exotic Higgs decay in BSM searches at ATLAS </p>
         <p class="member-research"> Quantum Machine Learning for Rare Particle Signatures in High-Dimensional Physics Data</p>
       </div>
-      <div class="member-card">
-          <div class="members-grid">
-            <div class="member-placeholder"><span>Coming soon</span></div>
-          </div>
-        </div>
-
-  <div class="people-callout">
-    <h4>Join Us</h4>
-    <p>
-      We are actively seeking motivated postgraduate students (MEng, MSc &amp; PhD) and postdoctoral researchers with interests in CFD, LBM, scientific machine learning, high-energy physics, or quantum computing/machine learning and sensing.
-     Funded positions are available through NRF, SA QuTI, UPQuST, and the ATLAS Collaboration.
-    </p>
-    <p style="margin-top: 1rem;">
-      The ideal CERG-FLUX Lab member is someone who is curious about how things work at a fundamental level and wants to build the tools to find out. You don't need to arrive as an expert in all of our pillars — nobody is — but you should bring a strong foundation in engineering, applied mathematics, computer science, software/computer engineering, or physics, a willingness to work rigorously through the mathematics, write and debug code (Python, C++, or Fortran), and the patience to work through hard problems carefully rather than rushing to results. We value people who read papers critically, ask good questions, document their work, and take ownership of their projects. If you're the kind of person who would rather understand a method deeply than apply it blindly, you'll fit in here.
-    <p style="margin-top: 1rem;">
-      If you're interested in joining the lab, please reach out to Prof Muaaz Bhamjee directly at <a href="mailto:muaaz.bhamjee@up.ac.za">muaaz.bhamjee@up.ac.za</a> with a brief introduction, your CV, and any relevant work or project samples you're willing to share. We look forward to hearing from you!
-    </p>
+      <div class="member-placeholder"><span>Coming soon</span></div>
+    </div>
   </div>
+
 </section>
 
 <div class="divider"><hr></div>
@@ -809,6 +894,46 @@
       <h4>Future Roadmap</h4>
       <p>Tailscale mesh networking, Slurm job scheduling, dedicated head node, self-hosted RustDesk relay, Rocky Linux migration.</p>
     </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<section class="join-section" id="join">
+  <div class="join-inner">
+    <p class="section-label">07 — Join Us</p>
+    <h2 class="section-title">Build the tools to find out</h2>
+
+    <p class="join-body">
+      We are actively seeking motivated postgraduate students (MEng, MSc &amp; PhD) and postdoctoral researchers with interests in CFD, LBM, scientific machine learning, high-energy physics, or quantum computing/machine learning and sensing.
+      Funded positions are available through NRF, SA QuTI, UPQuST, and the ATLAS Collaboration.
+    </p>
+
+    <div class="join-highlights">
+      <div class="join-highlight-card">
+        <h4>Who we're looking for</h4>
+        <p>Strong foundations in engineering, applied mathematics, computer science, software/computer engineering, or physics. Comfort with rigorous mathematics and writing code in Python, C++, or Fortran.</p>
+      </div>
+      <div class="join-highlight-card">
+        <h4>How we work</h4>
+        <p>We read papers critically, ask good questions, document our work, and take ownership of our projects. We'd rather understand a method deeply than apply it blindly.</p>
+      </div>
+      <div class="join-highlight-card">
+        <h4>Funding available</h4>
+        <p>Positions are funded through the NRF, SA QuTI, UPQuST, and the ATLAS Collaboration. Multiple openings at MEng, MSc, PhD, and postdoctoral level.</p>
+      </div>
+    </div>
+
+    <p class="join-body">
+      You don't need to arrive as an expert in all of our pillars — nobody is — but you should bring curiosity about how things work at a fundamental level and the patience to work through hard problems carefully rather than rushing to results.
+    </p>
+
+    <a href="mailto:muaaz.bhamjee@up.ac.za" class="join-cta">
+      Get in touch →
+    </a>
+    <p class="join-body" style="margin-top: 1rem; font-size: 0.9rem;">
+      Please reach out to Prof Muaaz Bhamjee at <a href="mailto:muaaz.bhamjee@up.ac.za">muaaz.bhamjee@up.ac.za</a> with a brief introduction, your CV, and any relevant work or project samples you're willing to share.
+    </p>
   </div>
 </section>
 
