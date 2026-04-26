@@ -572,6 +572,7 @@
     <a href="#publications">Publications</a>
     <a href="#news">News</a>
     <a href="#infra">Infrastructure</a>
+    <a href="#topics">Open Research Topics</a>
     <a href="#join" class="nav-join">Join Us</a>
   </div>
 </nav>
@@ -899,9 +900,587 @@
 
 <div class="divider"><hr></div>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Research Topics — CERG-FlUX Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0b1120;
+    --bg-card: rgba(17, 24, 40, 0.6);
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --accent-gold: #e8c44a;
+    --accent-blue: #5a8ae0;
+    --accent-red: #86002d;
+    --accent-violet: #8a6bbf;
+    --border-subtle: rgba(90, 138, 224, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .open-topics-section {
+    width: 100%;
+    padding: 6rem 2.5rem;
+    background: linear-gradient(170deg, rgba(32,80,176,0.08) 0%, rgba(138,107,191,0.06) 50%, var(--bg-primary) 100%);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative; overflow: hidden;
+  }
+  .open-topics-section::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(74,109,181,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(74,109,181,0.025) 1px, transparent 1px);
+    background-size: 60px 60px; pointer-events: none;
+  }
+  .topics-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent-gold); margin-bottom: 0.75rem; font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Source Serif 4', Georgia, serif; font-size: 2rem;
+    font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; line-height: 1.3;
+  }
+  .section-intro {
+    font-size: 1.05rem; color: var(--text-secondary); line-height: 1.75;
+    max-width: 780px; margin-bottom: 3rem;
+  }
+  .section-intro a {
+    color: var(--accent-gold); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .section-intro a:hover { border-color: var(--accent-gold); }
+
+  .pillar-group { margin-bottom: 3rem; }
+  .pillar-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .pillar-icon {
+    width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; flex-shrink: 0;
+  }
+  .pillar-icon.cfd { background: rgba(90,138,224,0.15); color: var(--accent-blue); }
+  .pillar-icon.hep { background: rgba(134,0,45,0.2); color: #e05580; }
+  .pillar-icon.qml { background: rgba(138,107,191,0.15); color: var(--accent-violet); }
+  .pillar-icon.cross { background: rgba(232,196,74,0.12); color: var(--accent-gold); }
+
+  .pillar-title {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-primary); font-weight: 600;
+  }
+  .pillar-subtitle {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--text-secondary); letter-spacing: 0.04em; margin-left: auto;
+  }
+
+  .topics-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem;
+  }
+  .topic-card {
+    padding: 1.5rem; border: 1px solid var(--border-subtle); border-radius: 8px;
+    background: var(--bg-card); backdrop-filter: blur(4px);
+    transition: border-color 0.3s, background 0.3s, transform 0.2s;
+    display: flex; flex-direction: column;
+  }
+  .topic-card:hover {
+    border-color: rgba(232,196,74,0.25); background: rgba(17,24,40,0.85);
+    transform: translateY(-2px);
+  }
+
+  .topic-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+  .topic-level {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 0.2rem 0.5rem; border-radius: 3px; font-weight: 600;
+  }
+  .topic-level.meng { background: rgba(90,138,224,0.12); color: var(--accent-blue); border: 1px solid rgba(90,138,224,0.2); }
+  .topic-level.msc { background: rgba(138,107,191,0.12); color: var(--accent-violet); border: 1px solid rgba(138,107,191,0.2); }
+  .topic-level.phd { background: rgba(232,196,74,0.1); color: var(--accent-gold); border: 1px solid rgba(232,196,74,0.2); }
+  .topic-level.postdoc { background: rgba(134,0,45,0.15); color: #e05580; border: 1px solid rgba(134,0,45,0.25); }
+
+  .topic-funding {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem; border-radius: 3px; font-weight: 500;
+  }
+  .topic-funding.funded { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+  .topic-funding.self-fund { background: rgba(148,163,184,0.08); color: var(--text-secondary); border: 1px solid rgba(148,163,184,0.15); }
+
+  .topic-title {
+    font-family: 'Source Serif 4', Georgia, serif; font-size: 1rem;
+    font-weight: 600; color: var(--text-primary); margin-bottom: 0.6rem; line-height: 1.4;
+  }
+  .topic-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.65; flex: 1; }
+  .topic-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
+  .topic-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+    padding: 0.15rem 0.4rem; border-radius: 3px;
+    background: rgba(90,138,224,0.08); color: var(--text-secondary); letter-spacing: 0.04em;
+  }
+  .topic-supervisor {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--text-secondary); margin-top: 0.75rem; padding-top: 0.6rem;
+    border-top: 1px solid rgba(90,138,224,0.08); letter-spacing: 0.03em;
+  }
+  .topic-supervisor strong { color: var(--text-primary); font-weight: 600; }
+
+  .topics-footer {
+    margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle);
+  }
+  .topics-footer p {
+    font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;
+    max-width: 780px; margin-bottom: 1.25rem;
+  }
+  .topics-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.65rem 1.5rem; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--bg-primary); background: var(--accent-gold); border: none;
+    border-radius: 4px; text-decoration: none; transition: all 0.3s; font-weight: 600;
+  }
+  .topics-cta:hover {
+    background: #f0d060; transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(232,196,74,0.25);
+  }
+
+  @media (max-width: 768px) {
+    .open-topics-section { padding: 4rem 1.5rem; }
+    .section-title { font-size: 1.6rem; }
+    .topics-grid { grid-template-columns: 1fr; }
+    .pillar-subtitle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="open-topics-section" id="topics">
+  <div class="topics-inner">
+    <p class="section-label">07 - Open Research Topics</p>
+    <h2 class="section-title">Problems worth working on</h2>
+    <p class="section-intro">
+      The topics below are actively available for postgraduate and postdoctoral research within the CERG-FlUX Lab.
+      They span our core pillars — CFD &amp; LBM, high-energy physics, and quantum computing &amp; machine learning —
+      and often sit at the intersections between them.
+      If a topic interests you, <a href="mailto:muaaz.bhamjee@up.ac.za">get in touch</a>.
+    </p>
+
+
+    <!-- ═══ PILLAR I — CFD & LBM ═══ -->
+    <div class="pillar-group">
+      <div class="pillar-header">
+        <div class="pillar-icon cfd">▦</div>
+        <span class="pillar-title">CFD &amp; Lattice Boltzmann Methods</span>
+        <span class="pillar-subtitle">Pillar I</span>
+      </div>
+      <div class="topics-grid">
+
+        <!-- CERG PAGE -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc / MEng</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Multiphase LBM with VOF for high-density-ratio flows — hydrocyclone validation</h3>
+          <p class="topic-desc">
+            Incorporate a true multiphase or two-phase VOF model in the Lattice Boltzmann Method capable of handling high-Reynolds-number flow with high density ratios and capturing reverse flow at outlet boundaries. Validated through a case study on air-core formation in a hydrocyclone using existing experimental data.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">VOF</span>
+            <span class="topic-tag">Multiphase</span>
+            <span class="topic-tag">Hydrocyclone</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- CERG PAGE -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc / MEng</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">LBM for multiphase flows in gas-solid cyclone separators</h3>
+          <p class="topic-desc">
+            Apply and refine the Lattice Boltzmann Method for simulating multiphase flows in gas-solid cyclone separators used in mineral processing. Assess strengths and limitations in handling turbulence, phase interactions, and particle separation efficiency, with validation against experimental data.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">Gas-Solid</span>
+            <span class="topic-tag">Cyclone</span>
+            <span class="topic-tag">Mineral Processing</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level phd">PhD</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">GPU-accelerated LBM for multiphase heat transfer on HPC infrastructure</h3>
+          <p class="topic-desc">
+            Develop a high-performance lattice Boltzmann solver targeting multiphase flow and conjugate heat transfer, leveraging GPU parallelism on CHPC Lengau/Sebowa clusters. Target clean energy and industrial applications requiring large-scale, time-resolved thermal-fluid simulation.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">GPU / CUDA</span>
+            <span class="topic-tag">HPC</span>
+            <span class="topic-tag">Heat Transfer</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc / MEng</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Pore-scale LBM simulation of thermal energy storage in porous media</h3>
+          <p class="topic-desc">
+            Use thermal lattice Boltzmann methods to simulate heat transfer and phase change at the pore scale in metal foam structures saturated with phase change materials. Investigate the interplay between foam morphology, porosity, and charging/discharging rates for compact energy storage.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">Porous Media</span>
+            <span class="topic-tag">PCM</span>
+            <span class="topic-tag">Thermal Storage</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ═══ PILLAR II — HIGH-ENERGY PHYSICS ═══ -->
+    <div class="pillar-group">
+      <div class="pillar-header">
+        <div class="pillar-icon hep">⊕</div>
+        <span class="pillar-title">High-Energy Physics — ATLAS Experiment</span>
+        <span class="pillar-subtitle">Pillar II</span>
+      </div>
+      <div class="topics-grid">
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level phd">PhD</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Exotic Higgs boson decay searches in BSM scenarios at ATLAS</h3>
+          <p class="topic-desc">
+            Search for non-standard Higgs boson decay channels using LHC Run 3 and HL-LHC datasets. Develop novel analysis strategies for rare decay topologies with complex final states, contributing to global BSM physics searches through the ATLAS experiment.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">ATLAS</span>
+            <span class="topic-tag">Higgs BSM</span>
+            <span class="topic-tag">LHC Run 3</span>
+            <span class="topic-tag">HL-LHC</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Physics-informed ML for signal–background discrimination in ATLAS</h3>
+          <p class="topic-desc">
+            Develop and benchmark classical and ML-based classification approaches for separating rare physics signals from Standard Model backgrounds in ATLAS data. Focus on interpretability, physics-informed feature engineering, and robustness to systematic uncertainties.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">ATLAS</span>
+            <span class="topic-tag">Machine Learning</span>
+            <span class="topic-tag">Classification</span>
+            <span class="topic-tag">Systematics</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Fast surrogate models for ATLAS detector simulation</h3>
+          <p class="topic-desc">
+            Investigate generative deep learning architectures (GANs, normalising flows, diffusion models) as fast surrogate replacements for full Geant4 detector simulation in the ATLAS calorimeter, targeting orders-of-magnitude speedup while preserving physics fidelity.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">ATLAS</span>
+            <span class="topic-tag">Generative Models</span>
+            <span class="topic-tag">Fast Sim</span>
+            <span class="topic-tag">Geant4</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ═══ PILLAR III — QUANTUM COMPUTING & ML ═══ -->
+
+    <div class="pillar-group">
+      <div class="pillar-header">
+        <div class="pillar-icon qml">◈</div>
+        <span class="pillar-title">Quantum Computing &amp; Machine Learning</span>
+        <span class="pillar-subtitle">Pillar III</span>
+      </div>
+      <div class="topics-grid">
+
+        
+        <!-- NEW -->
+        <div class="topic-card">
+            <div class="topic-badges">
+                <span class="topic-level phd">PhD</span>
+                <span class="topic-funding funded">Funding available</span>
+              </div>
+            <h3 class="topic-title">Quantum sensing for mineral processing</h3>
+            <p class="topic-desc">
+                Investigate quantum sensing modalities — including nitrogen-vacancy (NV) centre diamond magnetometry and superconducting quantum interference devices — for non-invasive, high-resolution characterisation of flow, temperature, and particle dynamics in mineral processing systems. Benchmark against conventional measurement techniques and assess feasibility for in-situ process monitoring in cyclone separators, flotation cells, and comminution circuits.
+            </p>
+            <div class="topic-tags">
+                <span class="topic-tag">Quantum Sensing</span>
+                <span class="topic-tag">NV Centres</span>
+                <span class="topic-tag">Mineral Processing</span>
+                <span class="topic-tag">Process Monitoring</span>
+            </div>
+            <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level phd">PhD</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Quantum machine learning for rare particle signatures in high-dimensional physics data</h3>
+          <p class="topic-desc">
+            Investigate quantum-enhanced classification and anomaly detection for identifying rare particle signatures in ATLAS datasets. Benchmark variational quantum classifiers and quantum kernel methods against classical ML baselines on NISQ hardware and simulators.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">QML</span>
+            <span class="topic-tag">ATLAS</span>
+            <span class="topic-tag">Anomaly Detection</span>
+            <span class="topic-tag">NISQ</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- CERG PAGE -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level phd">PhD</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Hybrid LBM–deep learning for multiphase flow simulation</h3>
+          <p class="topic-desc">
+            Develop a novel hybrid modelling approach integrating the Lattice Boltzmann Method with Physics-Informed Neural Networks (PINNs), Graph Neural Networks (GNNs), and Generative Adversarial Networks (GANs) to enhance accuracy and computational efficiency of multiphase flow simulations. Test against traditional solvers and experimental data.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">PINNs</span>
+            <span class="topic-tag">GNNs</span>
+            <span class="topic-tag">GANs</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- CERG PAGE -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc / MEng</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">ML-enhanced multiphase flow modelling for industrial separators</h3>
+          <p class="topic-desc">
+            Integrate deep learning methods (PINNs, GNNs) with traditional numerical approaches to improve phase interaction predictions in CFD. Apply to industrial processes including cyclone separators and fluidised beds, evaluating performance against conventional models.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">PINNs</span>
+            <span class="topic-tag">GNNs</span>
+            <span class="topic-tag">CFD</span>
+            <span class="topic-tag">Cyclone Separators</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- CERG PAGE -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc / MEng</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Deep learning surrogate models for high-Reynolds-number CFD</h3>
+          <p class="topic-desc">
+            Investigate deep learning-based surrogate models for accelerating CFD simulations of high-Reynolds-number flows. Analyse trade-offs between accuracy and computational cost, testing against traditional numerical solvers and experimental datasets.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">Deep Learning</span>
+            <span class="topic-tag">Surrogate Models</span>
+            <span class="topic-tag">High-Re</span>
+            <span class="topic-tag">CFD</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level phd">PhD</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Quantum algorithms for lattice Boltzmann fluid simulation</h3>
+          <p class="topic-desc">
+            Explore quantum computing approaches to the collision and streaming steps of the Lattice Boltzmann Method, assessing potential speedups on gate-based quantum hardware. Benchmark quantum-classical hybrid LBM workflows against GPU-accelerated classical solvers for canonical flow problems.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">Quantum Computing</span>
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">Hybrid Algorithms</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Quantum sensing for high-resolution thermal-fluid measurement</h3>
+          <p class="topic-desc">
+            Investigate nitrogen-vacancy (NV) centre diamond magnetometry and other quantum sensing modalities for non-invasive, high-spatial-resolution measurement of temperature and flow fields in compact heat transfer systems, benchmarking against conventional thermometry.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">Quantum Sensing</span>
+            <span class="topic-tag">NV Centres</span>
+            <span class="topic-tag">Thermometry</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ═══ CROSS-CUTTING ═══ -->
+    <div class="pillar-group">
+      <div class="pillar-header">
+        <div class="pillar-icon cross">⬡</div>
+        <span class="pillar-title">Cross-Cutting &amp; Emerging</span>
+        <span class="pillar-subtitle">Bridging Pillars</span>
+      </div>
+      <div class="topics-grid">
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level phd">PhD</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">LBM-based digital twin framework for real-time thermal management</h3>
+          <p class="topic-desc">
+            Develop a digital twin coupling GPU-accelerated LBM simulation with sensor data streams for real-time thermal monitoring and predictive control. Combine reduced-order LBM with ML-based state estimation for fast inference in operational environments.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">Digital Twin</span>
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">Real-Time</span>
+            <span class="topic-tag">ML</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Uncertainty quantification for LBM and ML-augmented CFD</h3>
+          <p class="topic-desc">
+            Develop Bayesian and ensemble-based uncertainty quantification methods for lattice Boltzmann and ML-augmented CFD predictions, quantifying epistemic and aleatoric uncertainty in multiphase flow simulations and physics-informed surrogate models.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">UQ</span>
+            <span class="topic-tag">Bayesian</span>
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">SciML</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+        <!-- NEW -->
+        <div class="topic-card">
+          <div class="topic-badges">
+            <span class="topic-level msc">MSc</span>
+            <span class="topic-funding self-fund">Self-funded</span>
+          </div>
+          <h3 class="topic-title">Reinforcement learning for active flow control in LBM environments</h3>
+          <p class="topic-desc">
+            Train reinforcement learning agents to discover active flow control strategies (blowing, suction, surface actuation) within LBM simulation environments, targeting drag reduction or heat transfer enhancement. Assess transferability of learned policies to higher-fidelity solvers.
+          </p>
+          <div class="topic-tags">
+            <span class="topic-tag">RL</span>
+            <span class="topic-tag">Flow Control</span>
+            <span class="topic-tag">LBM</span>
+            <span class="topic-tag">Heat Transfer</span>
+          </div>
+          <p class="topic-supervisor"><strong>Supervisor:</strong> Prof M. Bhamjee</p>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ── CTA ── -->
+    <div class="topics-footer">
+      <p>
+        Topics can be adapted to your background and interests. We welcome proposals that bridge our pillars in unexpected ways.
+        If none of the above fits exactly but you're drawn to our research areas, reach out anyway.
+        Several topics require self-funding — see the
+        <a href="https://www.up.ac.za/article/50994/postgraduate-funding" style="color: var(--accent-gold); text-decoration: none; border-bottom: 1px solid transparent;">UP funding page</a>,
+        DSI-NRF Masters/PhD programme, or DSI-CSIR programme for options.
+      </p>
+      <a href="mailto:muaaz.bhamjee@up.ac.za" class="topics-cta">
+        Get in touch →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
+
+<div class="divider"><hr></div>
+
 <section class="join-section" id="join">
   <div class="join-inner">
-    <p class="section-label">07 — Join Us</p>
+    <p class="section-label">08 — Join Us</p>
     <h2 class="section-title">Build the tools to find out</h2>
 
     <p class="join-body">
@@ -919,7 +1498,7 @@
         <p>We read papers critically, ask good questions, document our work, and take ownership of our projects. We'd rather understand a method deeply than apply it blindly.</p>
       </div>
       <div class="join-highlight-card">
-        <h4>Funding available</h4>
+        <h4>self-funded</h4>
         <p>Positions are funded through the NRF, SA QuTI, UPQuST, and the ATLAS Collaboration. Multiple openings at MEng, MSc, PhD, and postdoctoral level.</p>
       </div>
     </div>
